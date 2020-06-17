@@ -9,18 +9,17 @@ setup(name='rpi_ws281x',
       url='https://github.com/mrbeam/rpi_ws281x/',
       py_modules=['neopixel'],
 
-      # # this is hacky but I couldn't find any other way to get this .so file
-      # # into the root package folder (/usr/local/lib/python2.7/dist-packages)
-      # # if package (first arg) is '' (empty sting), .so file and up in /usr/local/lib
-      # # if package (first arg) is 'foo' so file and up in /usr/local/lib/python2.7/dist-packages/foo
-      # data_files=[('/usr/local/lib/python2.7/dist-packages', ['_rpi_ws281x.so'])],
-      # )
-
-      # this seems to work only if installed from zip file.
-      # if installed from folder (`pip install .`) this file end up in ` /usr/local`
+      # _rpi_ws281x.so needs to be on root package, same level as neopixel.py
+      # which is not so easy. I didn't find a better way than this.
+      # I simply accept that I have the file three times on the divice.
+      # Depending whether you install from a .ZIP file or from a folder (`pip install .`)
       data_files=[
+	      # does not bring the file where we want it at all.
 	      ('', ['_rpi_ws281x.so']),
+	      # relative path, works if installed from zip
 	      ('lib/python2.7/dist-packages', ['_rpi_ws281x.so']),
+	      # absolute path, works if installed from folder
+	      # If installed from zip the file will end up in `/usr/local/lib/python2.7/dist-packages/usr/local/lib/python2.7/dist-packages/_rpi_ws281x.so`
 	      ('/usr/local/lib/python2.7/dist-packages', ['_rpi_ws281x.so']),
       ],
       )
